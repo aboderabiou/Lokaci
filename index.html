@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans|Orbitron:700&display=swap">
+    <title>lokaci</title>
+</head>
+<body>
+    <div class="clock">
+        <div class="clock-face">
+            <div class="hand hour-hand"></div>
+            <div class="hand min-hand"></div>
+            <div class="hand second-hand"></div>
+        </div>  
+    </div><br>
+    <div class="horloge">
+        <div class="heures"></div>
+        <div class="date"></div>
+    </div>
+
+    <style>
+    html{
+        background: #f4bd6f url(image.jpg);
+        background-size: 100% 100%;
+        font-family: 'helvetica neue';
+        text-align: center;
+        font-size: 10px;
+    }
+    body{
+        margin: 0;
+        font-size: 2rem;
+        display: flex;
+        justify-content:center;
+        flex: 1;
+        min-height: 100vh;
+        align-items: center;
+    }
+    .clock{
+        width: 30rem;
+        height: 30rem;
+        border: 20px solid white;
+        border-radius: 50%;
+        margin: 50px auto;
+        position: relative;
+        padding: 2rem;
+        box-shadow: 0 0 0 4px rgba(0,0,0,0.1),
+            inset 0 0 0 3px #EFEFEF,
+            inset 0 0 10px black,
+            0 0 10px rgba(0,0,0,0.2);
+    }
+    .clock-face{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform: translateY(-3px);
+    }
+    .hand{
+        width: 50%;
+        height: 6px;
+        background: black;
+        position: absolute;
+        top: 50%;
+        transform-origin: 100%;
+        transform: rotate(90deg);
+        transition: all 0.05s;
+        transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+    }
+    *,
+    *::before,
+    *::after{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .horloge{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-shadow: 0 2px 50px rgba(10, 10, 10, 0.5);
+    }
+    .heures{
+        width: 500px;
+        font-size: 100px;
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        padding-bottom:5px; 
+        border-bottom: 1px solid rgba(10, 10, 10, 0.2);
+    }
+    .date{
+        font-size: 25px;
+        font-family: 'Nunito Sans', sans-serif;
+        padding-top: 10px;
+    }
+    </style>
+
+    <script>
+        const secondDiv = document.querySelector('.second-hand');
+        const minDiv = document.querySelector('.min-hand');
+        const hourDiv = document.querySelector('.hour-hand');
+
+        function setDate(){
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const secDeg = ((seconds/60)* 360 + 90);
+            secondDiv.style.transform = `rotate(${secDeg}deg)`;
+
+            const mins = now.getMinutes();
+            const minDeg = ((mins/60) * 360) + ((seconds/60)*6) + 90;
+            minDiv.style.transform = `rotate(${minDeg}deg)`;
+
+            const hour = now.getHours();
+            const hourDeg = ((hour/12)*360) + ((mins/60)*30) + 90; 
+            hourDiv.style.transform = `rotate(${hourDeg}deg`;
+        }
+        setInterval(setDate,1000);
+
+var heuresDiv = document.querySelector('.heures');
+var dateDiv = document.querySelector('.date');
+
+var affichageHeure = function(){
+    var today, annee, listeMois, mois, listeJours, jourNUmero, jourNom, heures, minutes, secondes, deuxChiffres;
+    today = new Date();
+    annee = today.getFullYear();
+    listeMois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+    mois = listeMois[today.getMonth()];
+    jourNUmero = today.getDate();
+    listeJours = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+    jourNom = listeJours[today.getDay()];
+    deuxChiffres = function(element){
+        if(element < 10){
+            return element = "0" + element;
+        } else {
+            return element;
+        }
+    }
+    heures = deuxChiffres(today.getHours());
+    minutes = deuxChiffres(today.getMinutes());
+    secondes = deuxChiffres(today.getSeconds());
+    heuresDiv.textContent = heures + ":" + minutes + ":" + secondes;
+    dateDiv.textContent = jourNom + ", " + jourNUmero + " " + mois + " " + annee;
+    setTimeout(affichageHeure, 1000);
+}
+affichageHeure();
+    </script>
+</body>
+</html>
